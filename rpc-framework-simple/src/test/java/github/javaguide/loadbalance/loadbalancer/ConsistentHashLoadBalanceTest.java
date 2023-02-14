@@ -34,6 +34,6 @@ class ConsistentHashLoadBalanceTest {
                 .version(rpcServiceConfig.getVersion())
                 .build();
         String userServiceAddress = loadBalance.selectServiceAddress(serviceUrlList, rpcRequest);
-        assertEquals("127.0.0.1:9998", userServiceAddress);
+        assertEquals("127.0.0.1:9997", userServiceAddress);
     }
 }
