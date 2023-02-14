@@ -11,7 +11,10 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@BenchmarkMode(Mode.AverageTime)
+import github.javaguide.annotation.RpcScan;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+@BenchmarkMode(Mode.Throughput)
 @Warmup(iterations = 3, time = 1)
 @Measurement(iterations = 5, time = 5)
 @Threads(4)
@@ -19,4 +22,21 @@ import org.slf4j.LoggerFactory;
 @State(value = Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 
-public class RpcClientTest {}
+@RpcScan(basePackage = {"github.javaguide"})
+public class RpcClientTest {
+
+    @Benchmark
+    public void rpcClientTest() throws InterruptedException {
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(RpcClientTest.class);
+        HelloController helloController = (HelloController) applicationContext.getBean("helloController");
+        helloController.test();
+    }
+
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(RpcClientTest.class.getSimpleName())
+                .result("result.json")
+                .resultFormat(ResultFormatType.JSON).build();
+        new Runner(opt).run();
+    }
+}

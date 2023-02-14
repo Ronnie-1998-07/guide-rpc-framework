@@ -68,5 +68,11 @@
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>1.36</version>
         </dependency>
+        <dependency>
+            <groupId>github.javaguide</groupId>
+            <artifactId>hello-service-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
